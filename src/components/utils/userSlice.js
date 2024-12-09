@@ -1,4 +1,3 @@
-// userSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";

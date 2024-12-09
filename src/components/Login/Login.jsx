@@ -5,9 +5,20 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth, db } from "../../lib/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  auth,
+  db,
+} from "../../lib/firebase";
+import {
+  collection,
+  query,
+  where,
+  doc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 import { uploadImageToCloudinary } from "../../lib/cloudinary";
+
 
 const Login = () => {
   const [avatar, setAvatar] = useState({
@@ -33,12 +44,10 @@ const Login = () => {
 
     const { username, email, password } = Object.fromEntries(formData);
 
-    // VALIDATE INPUTS
     if (!username || !email || !password)
       return toast.warn("Please enter inputs!");
     if (!avatar.file) return toast.warn("Please upload an avatar!");
 
-    // VALIDATE UNIQUE USERNAME
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("username", "==", username));
     const querySnapshot = await getDocs(q);

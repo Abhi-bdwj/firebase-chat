@@ -1,21 +1,41 @@
 import React from "react";
 import "./detail.css";
 import { auth } from "../../lib/firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../utils/userSlice";
 import { toast } from "react-toastify";
+import { changeBlock } from "../utils/chatSlice";
+import { arrayRemove, arrayUnion, doc } from "firebase/firestore";
 const Detail = () => {
   const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
+  const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } = useSelector(
+    (state) => state.chat
+  );
+
   const logoutHandler = () => {
     auth.signOut();
     dispatch(logOut());
     toast.info("You are logged Out", { position: "bottom-center" });
   };
+
+  const handleBlock = async () => {
+    if (!user) return;
+    const userDocRef = doc(db, "users", currentUser.id);
+    try {
+      await updateDoc(userDocRef, {
+        blocked: isReceiverBlocked ? arrayRemove(user.id) : arrayUnion(user.id),
+      });
+      dispatch(changeBlock());
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="detail">
       <div className="user">
-        <img src="./avatar.png" alt="" />
-        <h2>Jane Doe</h2>
+        <img src={user?.avatar || ".avatar.png"} alt="" />
+        <h2>{user?.username}</h2>
         <p>Lorem ipsum dolor sit amet.</p>
       </div>
       <div className="info">
@@ -81,7 +101,13 @@ const Detail = () => {
             <img src="./arrowUp.png" alt="" />
           </div>
         </div>
-        <button>Block User</button>
+        <button onClick={handleBlock}>
+          {isCurrentUserBlocked
+            ? "You are Blocked"
+            : isReceiverBlocked
+            ? "User Blocked "
+            : "Block User"}
+        </button>
         <button className="logout" onClick={logoutHandler}>
           Log Out
         </button>

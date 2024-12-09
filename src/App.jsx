@@ -14,6 +14,7 @@ const AppContent = () => {
   const dispatch = useDispatch();
   const [authStatusChecked, setAuthStatusChecked] = useState(false);
   const { currentUser, isLoading } = useSelector((state) => state.user);
+  const { chatId } = useSelector((state) => state.chat);
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (user) => {
@@ -40,8 +41,8 @@ const AppContent = () => {
       ) : (
         <>
           <List />
-          <Chat />
-          <Detail />
+          {chatId && <Chat />}
+          {chatId && <Detail />}
         </>
       )}
       <Notification />
