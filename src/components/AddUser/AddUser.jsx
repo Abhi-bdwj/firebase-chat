@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import "./AddUser.css";
+import "./addUser.css";
 import {
   arrayUnion,
   collection,
@@ -11,18 +10,42 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "../../lib/firebase";
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import { db } from "../../lib/firebase";
+
 const AddUser = () => {
-  const { currentUser } = useSelector((state) => state.user);
   const [user, setUser] = useState(null);
+
+  const { currentUser } = useSelector((state) => state.user);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const username = formData.get("username");
+
+    try {
+      const userRef = collection(db, "users");
+
+      const q = query(userRef, where("username", "==", username));
+
+      const querySnapShot = await getDocs(q);
+
+      if (!querySnapShot.empty) {
+        setUser(querySnapShot.docs[0].data());
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleAdd = async () => {
     const chatRef = collection(db, "chats");
     const userChatsRef = collection(db, "userchats");
+
     try {
-      
       const newChatRef = doc(chatRef);
+
       await setDoc(newChatRef, {
         createdAt: serverTimestamp(),
         messages: [],
@@ -37,52 +60,34 @@ const AddUser = () => {
         }),
       });
 
-      await updateDoc(doc(userChatsRef, user.id), {
+      await updateDoc(doc(userChatsRef, currentUser.id), {
         chats: arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
-          receiverId: currentUser.id,
+          receiverId: user.id,
           updatedAt: Date.now(),
         }),
       });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const username = formData.get("username");
-    try {
-      const userRef = collection(db, "users");
 
-      // Create a query against the collection.
-      const q = query(userRef, where("username", "==", username));
-      const querySnapShot = await getDocs(q);
-      if (!querySnapShot.empty) {
-        setUser(querySnapShot.docs[0].data());
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
-    <div>
-      <div className="addUser">
-        <form onSubmit={handleSearch}>
-          <input type="text" placeholder="UserName" name="username" />
-          <button>Search</button>
-        </form>
-        {user && (
-          <div className="user">
-            <div className="detail">
-              <img src={user.avatar || "./avatar.png"} alt="" />
-              <span>{user.username}</span>
-            </div>
-            <button onClick={handleAdd}>Add User</button>
+    <div className="addUser">
+      <form onSubmit={handleSearch}>
+        <input type="text" placeholder="Username" name="username" />
+        <button>Search</button>
+      </form>
+      {user && (
+        <div className="user">
+          <div className="detail">
+            <img src={user.avatar || "./avatar.png"} alt="" />
+            <span>{user.username}</span>
           </div>
-        )}
-      </div>
+          <button onClick={handleAdd}>Add User</button>
+        </div>
+      )}
     </div>
   );
 };

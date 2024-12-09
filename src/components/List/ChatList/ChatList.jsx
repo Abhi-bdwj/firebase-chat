@@ -16,22 +16,24 @@ const ChatList = () => {
     const unsub = onSnapshot(
       doc(db, "userchats", currentUser.id),
       async (res) => {
-        const items = res.data().chats;
-        const promises = items.map(async (item) => {
-          const userDocRef = doc(db, "users", item.receiverId);
-          const userDocSnap = await getDoc(userDocRef);
-          const user = userDocSnap.data();
-          return { ...item, user };
-        });
-        const chatData = await Promise.all(promises);
-        setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
+        if (res.exists()) {
+          const items = res.data().chats || [];
+          const promises = items.map(async (item) => {
+            const userDocRef = doc(db, "users", item.receiverId);
+            const userDocSnap = await getDoc(userDocRef);
+            const user = userDocSnap.data();
+            return { ...item, user };
+          });
+          const chatData = await Promise.all(promises);
+          setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
+        }
       }
     );
+
     return () => {
       unsub();
     };
   }, [currentUser.id]);
-  console.log(chats);
 
   return (
     <div className="chatList">
@@ -47,15 +49,17 @@ const ChatList = () => {
           onClick={addHandler}
         />
       </div>
-      {chats.map((chat) => {
+      {chats.map((chat) => (
         <div className="item" key={chat.chatId}>
-          <img src="./avatar.png" alt="" />
+          <img src={chat.user.avatar || "./avatar.png"} alt="" />
           <div className="texts">
-            <span>Ayush</span>
-            <p>{chat.lastMessage}</p>
+            <span>{chat.user.username}</span>
+            <p style={{ color: "lightgray" }}>
+              {chat.lastMessage || "No messages yet"}
+            </p>
           </div>
-        </div>;
-      })}
+        </div>
+      ))}
 
       {addmode && <AddUser />}
     </div>
