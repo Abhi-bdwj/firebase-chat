@@ -1,12 +1,14 @@
 .detail {
   flex: 1;
+  display: flex;
+  flex-direction: column; /* Stacking children vertically */
 
   .user {
-    padding: 30px 20px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     border-bottom: 1px solid #dddddd35;
 
     img {
@@ -16,11 +18,32 @@
       object-fit: cover;
     }
   }
+
   .info {
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    cursor: pointer;
+    overflow-y: auto; 
+    scrollbar-width: thin;
+    scrollbar-color: #001f3f transparent;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #001f3f;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+      border-radius: 10px;
+    }
 
     .option {
       .title {
@@ -37,6 +60,7 @@
           cursor: pointer;
         }
       }
+
       .photos {
         display: flex;
         flex-direction: column;
@@ -47,22 +71,26 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+
           .photoDetail {
             align-items: center;
             display: flex;
             gap: 20px;
+
             img {
               width: 40px;
               height: 40px;
               border-radius: 5px;
               object-fit: cover;
             }
+
             span {
               font-size: 14px;
               color: lightgray;
               font-weight: 300;
             }
           }
+
           .icon {
             width: 30px;
             height: 30px;
@@ -74,25 +102,79 @@
         }
       }
     }
+
+    .buttonContainer {
+      margin-top: 100%;
+      position: sticky;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
     button {
+      width: 100%;
       padding: 15px;
-      background-color: rgba(230, 74, 105, 0.553);
+      background-color: rgb(240, 25, 25);
       border-radius: 5px;
       border: none;
       color: white;
       cursor: pointer;
+    }
 
-      &:hover {
-        background-color: rgba(220, 20, 60, 0.796);
-      }
-      &.logout {
-        padding: 10px;
-        background-color: #3d7cce;
+    button:hover {
+      color: black;
+      background-color: rgba(240, 25, 25, 0.933);
+    }
 
-        &:hover {
-          background-color: #0f6be3;
-        }
-      }
+    button.logout {
+      padding: 10px;
+      background-color: #066cf2;
+    }
+
+    button.logout:hover {
+      color: black;
+      background-color: #066cf2d7;
+    }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .user img {
+      width: 80px;
+      height: 80px;
+    }
+
+    .info {
+      padding: 15px;
+      gap: 15px;
+    }
+
+    button {
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    button.logout {
+      padding: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .user img {
+      width: 70px;
+      height: 70px;
+    }
+
+    .info {
+      padding: 10px;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 12px;
     }
   }
 }

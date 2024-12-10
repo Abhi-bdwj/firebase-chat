@@ -1,26 +1,25 @@
 .chatList {
   flex: 1;
-  overflow-y: auto; /* Use 'auto' to show the scrollbar only when necessary */
+  overflow-y: auto;
 
   /* Scrollbar Styling */
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: #001f3f transparent; /* Thumb color and transparent track */
+  scrollbar-width: thin;
+  scrollbar-color: #001f3f transparent;
 
-  /* Webkit browsers */
   &::-webkit-scrollbar {
-    width: 8px; /* Width of the scrollbar */
+    width: 8px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #001f3f; /* Thumb color as dark navy blue */
-    border-radius: 10px; /* Rounded corners */
-    border: 2px solid transparent; /* Optional border to create spacing */
-    background-clip: content-box; /* Prevent border overlap */
+    background-color: #001f3f;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
   }
 
   &::-webkit-scrollbar-track {
-    background-color: transparent; /* Transparent track */
-    border-radius: 10px; /* Rounded corners for the track */
+    background-color: transparent;
+    border-radius: 10px;
   }
 
   .search {
@@ -29,12 +28,13 @@
     gap: 20px;
     padding: 20px;
   }
+
   .searchBar {
     flex: 1;
     background-color: rgba(17, 25, 40, 0.5);
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     border-radius: 10px;
     padding: 10px;
 
@@ -44,12 +44,15 @@
       color: white;
       border: none;
       outline: none;
+      font-size: 16px;
     }
+
     img {
       height: 20px;
       width: 20px;
     }
   }
+
   .add {
     width: 36px;
     height: 36px;
@@ -58,31 +61,140 @@
     border-radius: 10px;
     cursor: pointer;
   }
+
   .item {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 20px;
+    gap: 15px;
+    padding: 15px 20px;
     cursor: pointer;
     border-bottom: 1px solid #dddddd35;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgba(17, 25, 40, 0.1);
+    }
+
     img {
       width: 50px;
       height: 50px;
       border-radius: 50%;
       object-fit: cover;
     }
+
     .texts {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 5px;
 
       span {
         font-weight: 500;
+        font-size: 16px;
       }
 
       p {
         font-size: 14px;
         font-weight: 300;
+        color: #a5a5a5;
+      }
+    }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .search {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .searchBar {
+      padding: 8px;
+      gap: 10px;
+
+      input {
+        font-size: 14px;
+      }
+
+      img {
+        height: 18px;
+        width: 18px;
+      }
+    }
+
+    .add {
+      width: 30px;
+      height: 30px;
+      padding: 8px;
+    }
+
+    .item {
+      gap: 10px;
+      padding: 10px 15px;
+
+      img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .texts {
+        gap: 3px;
+
+        span {
+          font-size: 14px;
+        }
+
+        p {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .search {
+      padding: 10px;
+      gap: 5px;
+    }
+
+    .searchBar {
+      padding: 5px;
+      gap: 8px;
+
+      input {
+        font-size: 12px;
+      }
+
+      img {
+        height: 16px;
+        width: 16px;
+      }
+    }
+
+    .add {
+      width: 28px;
+      height: 28px;
+      padding: 5px;
+    }
+
+    .item {
+      gap: 8px;
+      padding: 8px 10px;
+
+      img {
+        width: 35px;
+        height: 35px;
+      }
+
+      .texts {
+        gap: 2px;
+
+        span {
+          font-size: 13px;
+        }
+
+        p {
+          font-size: 11px;
+        }
       }
     }
   }

@@ -3,6 +3,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap; /* Ensures that the content wraps on smaller screens */
+
+  /* Responsive Styling */
+  @media (max-width: 768px) {
+    padding: 15px;
+    justify-content: flex-start; /* Align items to the left on smaller screens */
+  }
 
   .user {
     display: flex;
@@ -16,6 +23,7 @@
       object-fit: cover;
     }
   }
+
   .icons {
     display: flex;
     gap: 20px;
@@ -24,6 +32,15 @@
       width: 20px;
       height: 20px;
       cursor: pointer;
+    }
+
+    /* Responsive Icon Adjustment */
+    @media (max-width: 480px) {
+      gap: 10px; /* Reduce space between icons on smaller screens */
+      img {
+        width: 18px;
+        height: 18px;
+      }
     }
   }
 }

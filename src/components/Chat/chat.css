@@ -16,7 +16,7 @@
     .user {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 15px;
 
       img {
         width: 60px;
@@ -43,7 +43,7 @@
 
     .icons {
       display: flex;
-      gap: 20px;
+      gap: 15px;
 
       img {
         width: 20px;
@@ -59,33 +59,32 @@
     overflow-y: auto;
     flex-direction: column;
     display: flex;
-    gap: 20px;
+    gap: 15px;
 
-    /* Scrollbar Styling */
-    scrollbar-width: thin; /* For Firefox */
-    scrollbar-color: #001f3f transparent; /* Thumb color and transparent track */
+    scrollbar-width: thin;
+    scrollbar-color: #001f3f transparent;
 
-    /* Webkit browsers */
     &::-webkit-scrollbar {
-      width: 8px; /* Width of the scrollbar */
+      width: 8px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #001f3f; /* Thumb color as dark navy blue */
-      border-radius: 10px; /* Rounded corners */
-      border: 2px solid transparent; /* Optional border to create spacing */
-      background-clip: content-box; /* Prevent border overlap */
+      background-color: #001f3f;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background-clip: content-box;
     }
 
     &::-webkit-scrollbar-track {
-      background-color: transparent; /* Transparent track */
-      border-radius: 10px; /* Rounded corners for the track */
+      background-color: transparent;
+      border-radius: 10px;
     }
 
     .message {
       max-width: 70%;
       display: flex;
-      gap: 20px;
+      gap: 15px;
+
       &.own {
         align-self: flex-end;
         .texts {
@@ -96,12 +95,14 @@
           }
         }
       }
+
       img {
         width: 30px;
         height: 30px;
         border-radius: 50%;
         object-fit: cover;
       }
+
       .texts {
         flex: 1;
         display: flex;
@@ -110,44 +111,48 @@
 
         img {
           width: 100%;
-          height: 300px;
+          height: auto;
+          max-height: 300px;
           object-fit: cover;
           border-radius: 10px;
         }
+
         p {
-          padding: 20px;
+          padding: 15px;
           background-color: rgba(17, 25, 40, 0.3);
           border-radius: 10px;
         }
 
         span {
-          font-size: 13px;
+          font-size: 12px;
         }
       }
     }
   }
 
   .bottom {
-    padding: 20px;
+    padding: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-top: 1px solid #dddddd35;
-    gap: 20px;
+    gap: 15px;
     margin-top: auto;
 
     .icons {
       display: flex;
-      gap: 20px;
+      gap: 15px;
     }
+
     img {
       height: 20px;
       width: 20px;
       cursor: pointer;
     }
+
     input {
       flex: 1;
-      padding: 20px;
+      padding: 15px;
       border: none;
       background-color: rgba(17, 25, 40, 0.5);
       outline: none;
@@ -157,16 +162,19 @@
 
       &:disabled {
         cursor: not-allowed;
-      } 
+      }
     }
+
     .emoji {
       position: relative;
+
       .picker {
         position: absolute;
         bottom: 50px;
         left: 0;
       }
     }
+
     .sendButton {
       background-color: #5183fe;
       border-radius: 5px;
@@ -178,6 +186,107 @@
       &:disabled {
         background-color: #5182feb4;
         cursor: not-allowed;
+      }
+    }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+
+      .user {
+        gap: 10px;
+
+        img {
+          width: 50px;
+          height: 50px;
+        }
+
+        .texts span {
+          font-size: 16px;
+        }
+
+        .texts p {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .center {
+      gap: 10px;
+
+      .message {
+        max-width: 85%;
+
+        img {
+          width: 25px;
+          height: 25px;
+        }
+
+        .texts p {
+          padding: 10px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .bottom {
+      padding: 10px;
+      gap: 10px;
+
+      input {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .sendButton {
+        padding: 8px 15px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .top {
+      .user img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .user .texts span {
+        font-size: 14px;
+      }
+
+      .user .texts p {
+        font-size: 10px;
+      }
+    }
+
+    .center {
+      gap: 8px;
+
+      .message {
+        gap: 8px;
+
+        .texts p {
+          font-size: 12px;
+          padding: 8px;
+        }
+      }
+    }
+
+    .bottom {
+      input {
+        padding: 8px;
+        font-size: 12px;
+      }
+
+      .sendButton {
+        padding: 6px 10px;
+        font-size: 12px;
       }
     }
   }
